@@ -5,7 +5,7 @@ import produce from 'immer';
 
 
 function App() {
-  let dimensions = 35
+  let dimensions = 20
   const [play, setPlay ] = useState(false)
   const [rangeValue, setRangeValue ] = useState(500)
   const [ grid, setGrid ] = useState(() => {
@@ -33,7 +33,7 @@ const nextStep = () => {
       for(var i=0; i < grid2.length; i++){
         for(var j=0; j < grid2[i].length; j++){
           let neighbors = 0
-          if(i > 0 && i < grid2.length-1 && j > 0 && j < grid2[i].length-1){
+          if(i > 0 && i < grid2.length && j > 0 && j < grid2[i].length){
             possibleNeighbors.forEach( item => {
               let x = item[0]
               let y = item[1]
@@ -104,7 +104,7 @@ const handleRangeChange = e => {
   return (
     <div className="App">
     <div className="grid-container">
-      {grid.map((row, index) => <>{row.map((box, index2 ) => <div key={`${index}${index2}`} className={`grid-item ${box ? 'red' : ''}`} onClick={() => changeBox(index,index2)}>[]</div>)}</>)}
+      {grid.map((row, index) => <>{row.map((box, index2 ) => <div key={`${index}${index2}`} className={`grid-item ${box ? 'red' : ''}`} onClick={() => changeBox(index,index2)}></div>)}</>)}
     </div>
 
     <div className='toolbar'>
