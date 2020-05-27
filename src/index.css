@@ -19,8 +19,8 @@ code {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(20, 20px [col-start]);
-  grid-template-rows: repeat(20, 20px [row-start]);
+  grid-template-columns: repeat(25, 20px [col-start]);
+  grid-template-rows: repeat(25, 20px [row-start]);
   background-color: #2196F3;
   grid-gap: 1px;
   padding: 1px;

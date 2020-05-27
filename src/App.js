@@ -1,20 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import produce from 'immer';
 
+let dimensions = 25
+function startingCode(){
+  let rows = []
+  for(let i = 0; i < dimensions; i ++) {
+    rows.push(Array.from(Array(dimensions), () => 0 ))
+  }
+  return rows
+}
 
 function App() {
-  let dimensions = 20
   const [play, setPlay ] = useState(false)
+  const [ genNum, setGenNum ] = useState(0)
   const [rangeValue, setRangeValue ] = useState(500)
-  const [ grid, setGrid ] = useState(() => {
-    let rows = []
-    for(let i = 0; i < dimensions; i ++) {
-      rows.push(Array.from(Array(dimensions), () => 0 ))
-    }
-    return rows}
-    )
+  const [ grid, setGrid ] = useState( startingCode())
 
 const possibleNeighbors = [
   [-1, -1],
@@ -33,7 +35,7 @@ const nextStep = () => {
       for(var i=0; i < grid2.length; i++){
         for(var j=0; j < grid2[i].length; j++){
           let neighbors = 0
-          if(i > 0 && i < grid2.length && j > 0 && j < grid2[i].length){
+          if(i > 0 && i < grid2.length-1 && j > 0 && j < grid2[i].length-1){
             possibleNeighbors.forEach( item => {
               let x = item[0]
               let y = item[1]
@@ -55,8 +57,13 @@ const nextStep = () => {
   }
   })
   setGrid(newGrid)
+  setGenNum(genNum +1)
   // setTimeout(nextStep, 500)
 }
+
+useCallback(() => {
+
+},[])
 
 useEffect(() => {
   if(play){
@@ -71,6 +78,11 @@ const runLife = () =>{
 
 const stop = () =>{
   setPlay(false)
+  setGenNum(0)
+}
+const clear = () =>{
+  setGrid(startingCode())
+  setGenNum(0)
 }
 
 
@@ -108,6 +120,11 @@ const handleRangeChange = e => {
     </div>
 
     <div className='toolbar'>
+      Generation: {genNum}
+    </div>
+    <div className='toolbar'>
+      
+      <button onClick={clear}>Clear</button> 
       <button onClick={nextStep}>Next</button> 
       {play ? <button onClick={stop}>stop</button>
       : <button onClick={runLife}>Run Lifecycle</button> }
