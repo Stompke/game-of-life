@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import produce from 'immer';
 
 
 function App() {
-  let dimensions = 20
+  let dimensions = 35
+  const [play, setPlay ] = useState(false)
   const [ grid, setGrid ] = useState(() => {
     let rows = []
     for(let i = 0; i < dimensions; i ++) {
@@ -26,89 +27,94 @@ const possibleNeighbors = [
 ]
 
 
-const stuff = e => {
-  const nextState = produce(grid, newGrid => {
-    // newGrid[43][44] = 1
-    // newGrid[44][44] = 1
-    // newGrid[44][43] = 1
-    // newGrid[44][45] = 1
-    // newGrid[45][45] = 1
-    // newGrid[45][43] = 1
-    // newGrid[46][44] = 1
-    console.log(e.target)
-    console.log(e.target.key)
-    console.log(e.target.column)
-  })
-  setGrid(nextState)
-}
-const nextStep = e => {
-  console.log('next step')
-  let nextState = produce(grid, newGrid => {
-  for(var i=0; i < dimensions; i++){
-    for(var j=0; j < dimensions; j++){
-      if(i > 0 && i < dimensions && j > 0 && j < dimensions){
-          console.log('for loop', `${i}${j}`)
+const nextStep = () => {
+  const newGrid = produce(grid, grid2 => {
+      for(var i=0; i < grid2.length; i++){
+        for(var j=0; j < grid2[i].length; j++){
           let neighbors = 0
-          possibleNeighbors.forEach((x) => {
-            // console.log(x[0])
-            // console.log(x[1])
-            // console.log(newGrid[i + x[0]][j + x[1]])
-            neighbors += newGrid[i + x[0]][j + x[1]]
-          })
-          console.log('neighbors', neighbors)
-          if(neighbors == 2){
-            console.log('stays the same')
-          } else if (neighbors == 3) {
-                console.log('created')
-                newGrid[i][j] = 1
-              } 
-          else {
-            console.log('dies')
-            newGrid[i][j] = 0
-          }
-        }
-
+          if(i > 0 && i < grid2.length-1 && j > 0 && j < grid2[i].length-1){
+            possibleNeighbors.forEach( item => {
+              let x = item[0]
+              let y = item[1]
+              neighbors += grid[i+x][j+y]
+            })
+            if(grid[i][j] == 0 && neighbors == 3){
+              grid2[i][j] = 1
+            } else if(grid[i][j] == 1){
+              if (neighbors <= 1){
+                grid2[i][j] = 0
+              } else if(neighbors >= 4){
+                grid2[i][j] = 0
+              } else if(neighbors == 2 || neighbors == 3){
+                // leave it
+              }
+            } 
+      }
     }
   }
   })
-  // console.log(nextState)
-  setGrid(nextState)
+  setGrid(newGrid)
+  // setTimeout(nextStep, 500)
 }
 
+useEffect(() => {
+  if(play){
+    setTimeout(nextStep, 100)
+    console.log('yo!')
+  }
+},[grid])
 
+const myAlert = () => {
+  // setInterval(nextStep, 2000);
+  alert('waited')
+}
 
+const runLife = () =>{
+  setPlay(true)
+  nextStep()
+}
+const stop = () =>{
+  setPlay(false)
+}
 
 
 
 const running = useRef(null);
-// console.log(running)
 
 
+const changeBox = (index, index2) => {
+    const newGrid = produce(grid, grid2 => {
+        grid2[index][index2] = grid[index][index2] ? 0 : 1;
+    })
+    setGrid(newGrid)
+}
+
+
+const addNeighbors = (i, j) => {
+    const newGrid = produce(grid, grid2 => {
+      possibleNeighbors.forEach( item => {
+        let x = item[0]
+        let y = item[1]
+        grid2[i+x][j+y] = 1
+      })
+    })
+    setGrid(newGrid)
+}
 
 
 
   return (
     <div className="App">
-
-      {grid.map((row, index) => <div key={`row ${index}`} className='row' >
-        {row.map((column, index2 ) => <div onClick={() => {
-                const newGrid = produce(grid, grid2 => {
-                    grid2[index][index2] = grid[index][index2] ? 0 : 1;
-                })
-                setGrid(newGrid)
-              }}
-
-                 row={index} column={index2.toString()} key={`${index}${index2}`} className='column'>{column}</div>)}
-      </div>)}
+    <div className="grid-container">
+      {grid.map((row, index) => <>{row.map((box, index2 ) => <div key={`${index}${index2}`} className={`grid-item ${box ? 'red' : ''}`} onClick={() => changeBox(index,index2)}>[]</div>)}</>)}
+    </div>
 
 
-          
-          {/* {row.map(box => <div style={{color: 'red'}} key={'hi'} onClick={stuff}>{box}</div>)} */}
-          {/* <br/> */}
+<button onClick={nextStep}>Next</button> 
+{play ? <button onClick={stop}>stop</button>
+ : <button onClick={runLife}>Run Lifecycle</button> }
 
 
-       <button onClick={nextStep}>Next</button>
-        
       
       
       

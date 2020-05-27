@@ -16,3 +16,23 @@ code {
   display: inline;
   padding: 0px 3px;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(35, 10px [col-start]);
+  /* grid-template-rows: 5px, 5px, 5px, 5px, 5px, 5px; */
+  background-color: #2196F3;
+  grid-gap: 10px 10px;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid grey;
+  text-align: center;
+}
+
+.red {
+  background-color: red;
+}
+
