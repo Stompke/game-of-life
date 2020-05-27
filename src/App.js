@@ -7,6 +7,7 @@ import produce from 'immer';
 function App() {
   let dimensions = 35
   const [play, setPlay ] = useState(false)
+  const [rangeValue, setRangeValue ] = useState(500)
   const [ grid, setGrid ] = useState(() => {
     let rows = []
     for(let i = 0; i < dimensions; i ++) {
@@ -59,34 +60,28 @@ const nextStep = () => {
 
 useEffect(() => {
   if(play){
-    setTimeout(nextStep, 100)
-    console.log('yo!')
+    setTimeout(nextStep, rangeValue)
   }
 },[grid])
-
-const myAlert = () => {
-  // setInterval(nextStep, 2000);
-  alert('waited')
-}
 
 const runLife = () =>{
   setPlay(true)
   nextStep()
 }
+
 const stop = () =>{
   setPlay(false)
 }
 
 
 
-const running = useRef(null);
-
-
 const changeBox = (index, index2) => {
-    const newGrid = produce(grid, grid2 => {
-        grid2[index][index2] = grid[index][index2] ? 0 : 1;
-    })
-    setGrid(newGrid)
+    if(!play){
+      const newGrid = produce(grid, grid2 => {
+          grid2[index][index2] = grid[index][index2] ? 0 : 1;
+      })
+      setGrid(newGrid)
+    }
 }
 
 
@@ -101,6 +96,9 @@ const addNeighbors = (i, j) => {
     setGrid(newGrid)
 }
 
+const handleRangeChange = e => {
+  setRangeValue(e.target.value)
+}
 
 
   return (
@@ -109,10 +107,13 @@ const addNeighbors = (i, j) => {
       {grid.map((row, index) => <>{row.map((box, index2 ) => <div key={`${index}${index2}`} className={`grid-item ${box ? 'red' : ''}`} onClick={() => changeBox(index,index2)}>[]</div>)}</>)}
     </div>
 
-
-<button onClick={nextStep}>Next</button> 
-{play ? <button onClick={stop}>stop</button>
- : <button onClick={runLife}>Run Lifecycle</button> }
+    <div className='toolbar'>
+      <button onClick={nextStep}>Next</button> 
+      {play ? <button onClick={stop}>stop</button>
+      : <button onClick={runLife}>Run Lifecycle</button> }
+      
+      <input onChange={handleRangeChange} type="range" min="1" max="1000" value={rangeValue}></input>
+    </div>
 
 
       
