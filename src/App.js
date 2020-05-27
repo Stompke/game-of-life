@@ -18,6 +18,8 @@ function App() {
   const [rangeValue, setRangeValue ] = useState(500)
   const [ grid, setGrid ] = useState( startingCode())
 
+
+
 const possibleNeighbors = [
   [-1, -1],
   [-1, 0],
@@ -57,16 +59,13 @@ const nextStep = () => {
   }
   })
   setGrid(newGrid)
-  setGenNum(genNum +1)
-  // setTimeout(nextStep, 500)
+
 }
 
-useCallback(() => {
-
-},[])
 
 useEffect(() => {
   if(play){
+    setGenNum(genNum +1)
     setTimeout(nextStep, rangeValue)
   }
 },[grid])
@@ -78,7 +77,6 @@ const runLife = () =>{
 
 const stop = () =>{
   setPlay(false)
-  setGenNum(0)
 }
 const clear = () =>{
   setGrid(startingCode())
@@ -94,6 +92,53 @@ const changeBox = (index, index2) => {
       })
       setGrid(newGrid)
     }
+}
+
+const fountain = () => {
+  if(!play){
+    const newGrid = produce(grid, grid2 => {
+      grid2[10][7] = 1
+      grid2[10][8] = 1
+      grid2[10][9] = 1
+      grid2[10][10] = 1
+      grid2[10][11] = 1
+      grid2[10][12] = 1
+      grid2[10][13] = 1
+      grid2[10][14] = 1
+      grid2[10][15] = 1
+      grid2[10][16] = 1
+    })
+    setGrid(newGrid)
+  }
+}
+const fireworks = () => {
+  if(!play){
+    const newGrid = produce(grid, grid2 => {
+      grid2[10][7] = 1
+      grid2[10][8] = 1
+      grid2[10][9] = 1
+      grid2[10][10] = 1
+      grid2[10][11] = 1
+      grid2[10][12] = 1
+      grid2[10][13] = 1
+      grid2[10][14] = 1
+      grid2[10][15] = 1
+    })
+    setGrid(newGrid)
+  }
+}
+const missile = () => {
+  if(!play){
+    const newGrid = produce(grid, grid2 => {
+      grid2[1][2] = 1
+      grid2[2][3] = 1
+      grid2[3][3] = 1
+      grid2[3][2] = 1
+      grid2[3][1] = 1
+
+    })
+    setGrid(newGrid)
+  }
 }
 
 
@@ -124,12 +169,19 @@ const handleRangeChange = e => {
     </div>
     <div className='toolbar'>
       
-      <button onClick={clear}>Clear</button> 
-      <button onClick={nextStep}>Next</button> 
+      {!play && <button onClick={clear}>Clear</button> }
+      {!play && <button onClick={nextStep}>Next</button>}
       {play ? <button onClick={stop}>stop</button>
       : <button onClick={runLife}>Run Lifecycle</button> }
       
       <input onChange={handleRangeChange} type="range" min="1" max="1000" value={rangeValue}></input>
+    </div>
+    <div className='toolbar'>
+      
+      {!play && <button onClick={fountain}>Fountain</button> }
+      {!play && <button onClick={missile}>Missile</button>}
+      {!play && <button onClick={fireworks}>Fireworks</button>}
+
     </div>
 
 
