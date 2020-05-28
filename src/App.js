@@ -142,17 +142,6 @@ const missile = () => {
 }
 
 
-const addNeighbors = (i, j) => {
-    const newGrid = produce(grid, grid2 => {
-      possibleNeighbors.forEach( item => {
-        let x = item[0]
-        let y = item[1]
-        grid2[i+x][j+y] = 1
-      })
-    })
-    setGrid(newGrid)
-}
-
 const handleRangeChange = e => {
   setRangeValue(e.target.value)
 }
@@ -160,35 +149,36 @@ const handleRangeChange = e => {
 
   return (
     <div className="App">
-    <div className="grid-container">
-      {grid.map((row, index) => <>{row.map((box, index2 ) => <div key={`${index}${index2}`} className={`grid-item ${box ? 'red' : ''}`} onClick={() => changeBox(index,index2)}></div>)}</>)}
-    </div>
-
-    <div className='toolbar'>
-      Generation: {genNum}
-    </div>
-    <div className='toolbar'>
-      
-      {!play && <button onClick={clear}>Clear</button> }
-      {!play && <button onClick={nextStep}>Next</button>}
-      {play ? <button onClick={stop}>stop</button>
-      : <button onClick={runLife}>Run Lifecycle</button> }
-      
-      <input onChange={handleRangeChange} type="range" min="1" max="1000" value={rangeValue}></input>
-    </div>
-    <div className='toolbar'>
-      
-      {!play && <button onClick={fountain}>Fountain</button> }
-      {!play && <button onClick={missile}>Missile</button>}
-      {!play && <button onClick={fireworks}>Fireworks</button>}
-
-    </div>
+      <div className="App-header">
+        <h1>Game Of Life</h1>
+        <div className='sidebar'>
+          <h4>Add a premade pixel</h4>
+          {!play && <button onClick={fountain}>Fountain</button> }
+          {!play && <button onClick={missile}>Missile</button>}
+          {!play && <button onClick={fireworks}>Fireworks</button>}
+        </div>
+        <div className="grid-container">
+          {/* Living cells backgroundColor changes as the Generation Increments */}
+          {grid.map((row, index) => <>{row.map((box, index2 ) => <div key={`${index}${index2}`} style={box ? {backgroundColor: `rgb(${genNum}, ${255-genNum}, ${genNum/2})`} : {backgroundColor: ''}} className={`grid-item`} onClick={() => changeBox(index,index2)}></div>)}</>)}
+        </div>
 
 
-      
-      
-      
+        <div className='sidebar'>
+          
+          Generation: {genNum}
+          {!play && <button onClick={clear}>Clear</button> }
+          {!play && <button onClick={nextStep}>Next</button>}
+          {play ? <button onClick={stop}>stop</button>
+          : <button onClick={runLife}>Run Lifecycle</button> }
+          
+          <input onChange={handleRangeChange} type="range" min="1" max="1000" value={rangeValue}></input>
+        </div>
 
+
+      
+      
+      
+      </div>
     </div>
   );
 }

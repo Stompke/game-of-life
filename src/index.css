@@ -35,10 +35,16 @@ code {
 }
 
 .red {
-  background-color: red;
+  background-color: #ff0000;
 }
 
-.toolbar {
-  width: 100%;
+.sidebar {
+  display: flex;
+  flex-flow: column;
+  padding: 0 10px;
+  max-width: 120px;
+}
 
+.grid-item:hover {
+  background-color: rgb(253, 101, 101);
 }
