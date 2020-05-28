@@ -48,3 +48,9 @@ code {
 .grid-item:hover {
   background-color: rgb(253, 101, 101);
 }
+
+.game-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
