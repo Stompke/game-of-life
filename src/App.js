@@ -174,6 +174,13 @@ const handleRangeChange = e => {
             
             <input onChange={handleRangeChange} type="range" min="1" max="1000" value={rangeValue}></input>
           </div>
+          <div className='sidebar-400'>
+            <ul>
+              <p>In the Game of Life, these rules examine each cell of the grid. For each cell, it counts that cell's eight neighbors (up, down, left, right, and diagonals), and then act on that result.</p>
+              <li>Rule 1: If the cell is alive and has 2 or 3 neighbors, then it remains alive. Else it dies.</li>
+              <li>Rule 2: If the cell is dead and has exactly 3 neighbors, then it comes to life. Else if remains dead.</li>
+            </ul>
+          </div>
 
 
       

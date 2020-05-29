@@ -21,7 +21,6 @@ code {
   display: grid;
   grid-template-columns: repeat(25, 20px [col-start]);
   grid-template-rows: repeat(25, 20px [row-start]);
-  background-color: #2196F3;
   grid-gap: 1px;
   padding: 1px;
 }
@@ -43,6 +42,12 @@ code {
   flex-flow: column;
   padding: 0 10px;
   max-width: 120px;
+}
+.sidebar-400 {
+  display: flex;
+  flex-flow: column;
+  padding: 0 30px;
+  max-width: 400px;
 }
 
 .grid-item:hover {
