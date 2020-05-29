@@ -160,7 +160,17 @@ const handleRangeChange = e => {
           </div>
           <div className="grid-container">
             {/* Living cells backgroundColor changes as the Generation Increments */}
-            {grid.map((row, index) => <>{row.map((box, index2 ) => <div key={`${index}${index2}`} style={box ? {backgroundColor: `rgb(${genNum}, ${255-genNum}, ${genNum/2})`} : {backgroundColor: ''}} className={`grid-item`} onClick={() => changeBox(index,index2)}></div>)}</>)}
+            {grid.map((row, index) => 
+              <>{row.map((box, index2 ) => 
+              <div 
+                key={`${index}${index2}`} 
+                style={box 
+                  ? {backgroundColor: `rgb(${genNum}, ${255-genNum}, ${genNum/2})`} 
+                  : {backgroundColor: ''}} 
+                className={`grid-item`} 
+                onClick={() => changeBox(index,index2)}></div>)}
+              </>)
+            }
           </div>
 
 
