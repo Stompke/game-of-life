@@ -151,7 +151,7 @@ const handleRangeChange = e => {
     <div className="App">
       <div className="App-header">
         <div className='game-container'>
-          <h1>Game Of Life</h1>
+          <h1>Conway's Game Of Life</h1>
           <div className='sidebar'>
             <h4>Add a premade pixel</h4>
             {!play && <button onClick={fountain}>Fountain</button> }
